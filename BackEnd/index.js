@@ -15,8 +15,8 @@ mongoose.connect(process.env.MONGO).then(() => {
 const app = express();
 app.use(express.json());
 
-app.use("/user", userRoutes);
-app.use('/auth', authRoute);
+app.use("/BackEnd/user", userRoutes);
+app.use('/BackEnd/auth', authRoute);
 
 app.listen(3000, () => {
     console.log("server running on port 3000");
