@@ -8,6 +8,6 @@ export const signup = async (req, res) => {
     const NewUser = new User({ userName, email, password: hashedPassword });
     await NewUser.save();
   } catch (error) {
-    res.status(500).json({error});
+    next(error)
   }
 };
