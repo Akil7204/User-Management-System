@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
@@ -24,8 +25,9 @@ export const signin = async (req, res, next) => {
     if (!validPassword) return next(errorHandler(401, "Invaild password"));
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: hashedPassword, ...rest } = validUser._doc;
+    const expirayDate = new Date(Date.now() + 3600000); //1 hour
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, { httpOnly: true, expires: expirayDate })
       .status(200)
       .json(rest);
     

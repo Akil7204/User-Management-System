@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 function SignUp() {
   const [loading, setLoding] = useState(false);
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -23,11 +24,13 @@ function SignUp() {
         body: JSON.stringify(data),
       });
       const userData = await res.json();
-      console.log(userData);
+      
       setLoding(false);
       if (userData.success === false) {
         return setError(true);
       }
+      navigate("/");
+      
     } catch (error) {
       setLoding(false);
       setError(true);
