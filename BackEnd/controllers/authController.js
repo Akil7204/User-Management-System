@@ -26,6 +26,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: hashedPassword, ...rest } = validUser._doc;
     const expirayDate = new Date(Date.now() + 3600000); //1 hour
+    
     res
       .cookie("access_token", token, { httpOnly: true, expires: expirayDate })
       .status(200)

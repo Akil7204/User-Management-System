@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate,  } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { signInStart, signInSuccess, signInFailure } from "../Redux/User/userSlice";
+import {useDispatch, useSelector} from 'react-redux';
+
 
 function Signin() {
-  const [loading, setLoding] = useState(false);
-  const [error, setError] = useState(false);
+  const {loading, error} = useSelector((state) => state.user)
+  console.log(loading, error);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -14,8 +19,7 @@ function Signin() {
 
   const onSubmit = async (data) => {
     try {
-      setLoding(true);
-      setError(false);
+      dispatch(signInStart());
       const res = await fetch("/BackEnd/auth/signin", {
         method: "POST",
         headers: {
@@ -24,15 +28,14 @@ function Signin() {
         body: JSON.stringify(data),
       });
       const userData = await res.json();
-      console.log(userData);
-      setLoding(false);
       if (userData.success === false) {
-        return setError(true);
+        dispatch(signInFailure(userData.message));
+        return;
       }
+      dispatch(signInSuccess(userData))
       navigate("/")
     } catch (error) {
-      setLoding(false);
-      setError(true);
+      dispatch(signInFailure(error))
     }
   };
 
@@ -42,7 +45,7 @@ function Signin() {
     <div className="p-4 max-w-lg mx-auto ">
       <h1 className="text-3xl text-center font-semibold my-8">Sign In</h1>
       <p className="text-red-700 text-center font-semibold p-5">
-        {error && "somthing went wrong"}
+        {error ? error || "somthing went wrong" : ""}
       </p>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
        
