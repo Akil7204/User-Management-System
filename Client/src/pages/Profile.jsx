@@ -134,7 +134,7 @@ function Profile() {
           className="bg-slate-200 rounded-lg p-3"
           onChange={handleChange}
         />
-        <input
+        {/* <input
           defaultValue={currentUser.email}
           type="email"
           id="email"
@@ -148,7 +148,7 @@ function Profile() {
           placeholder="password"
           className="bg-slate-200 rounded-lg p-3"
           onChange={handleChange}
-        />
+        /> */}
         <button
           type="submit"
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75"
