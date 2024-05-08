@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/BackEnd/user", userRoutes);
+app.use('/BackEnd/user', userRoutes);
 app.use('/BackEnd/auth', authRoute);
 
 app.use((err, req, res, next) => {
