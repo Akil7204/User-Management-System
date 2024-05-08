@@ -14,7 +14,6 @@ function Profile() {
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({});
-  console.log(formData);
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -23,25 +22,34 @@ function Profile() {
     }
   }, [image]);
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (image) => {
     try {
       const storage = getStorage(app);
       const fileName = new Date().getTime() + image.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, image);
-      uploadTask.on("state_changed", (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred/snapshot.totalBytes) * 100;
-        setImagePercent(Math.round(progress));
-      }),
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setImagePercent(Math.round(progress));
+        },
+        
         (error) => {
           setImageError(true);
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) =>
-            setFormData({ ...formData, profilePicture: downloadUrl })
-          );
-        };
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              
+                setFormData({ ...formData, profilePicture: downloadURL });
+            })
+            // .catch((error) => {
+            //   setImageError(true); // Handle error if getDownloadURL fails
+            // });
+        }
+      );
     } catch (error) {}
   };
 
@@ -57,7 +65,7 @@ function Profile() {
           onChange={(e) => setImage(e.target.files[0])}
         />
         <img
-          src={currentUser.profilePicture}
+          src={formData.profilePicture || currentUser.profilePicture}
           alt="profile"
           className="h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2 border-4 border-slate-700"
           onClick={() => fileRef.current.click()}
