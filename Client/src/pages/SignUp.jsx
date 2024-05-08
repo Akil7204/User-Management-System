@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { signUpFailure, signUpStart, signUpSuccess } from "../Redux/User/userSlice";
+import { useDispatch } from "react-redux";
 
 function SignUp() {
   const [loading, setLoding] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -14,8 +17,7 @@ function SignUp() {
 
   const onSubmit = async (data) => {
     try {
-      setLoding(true);
-      setError(false);
+      dispatch(signUpStart());
       const res = await fetch("/BackEnd/auth/signup", {
         method: "POST",
         headers: {
@@ -27,13 +29,13 @@ function SignUp() {
       
       setLoding(false);
       if (userData.success === false) {
-        return setError(true);
+        return dispatch(signUpFailure(userData.message));
       }
+      dispatch(signUpSuccess(userData));
       navigate("/");
       
     } catch (error) {
-      setLoding(false);
-      setError(true);
+      dispatch(signUpFailure(error));
     }
   };
 

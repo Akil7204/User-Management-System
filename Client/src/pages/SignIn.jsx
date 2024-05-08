@@ -6,8 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 
 function Signin() {
-  const {loading, error} = useSelector((state) => state.user)
-  console.log(loading, error);
+  const {loading, error} = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,7 +32,7 @@ function Signin() {
         return;
       }
       dispatch(signInSuccess(userData))
-      navigate("/")
+      navigate("/");
     } catch (error) {
       dispatch(signInFailure(error))
     }

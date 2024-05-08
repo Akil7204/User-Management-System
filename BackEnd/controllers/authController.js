@@ -10,7 +10,15 @@ export const signup = async (req, res, next) => {
   try {
     await NewUser.save();
     console.log("user data saved");
-    res.status(201).json({ message: "user created successfully" });
+    const token = jwt.sign({ id: NewUser._id }, process.env.JWT_SECRET);
+    const { password: hashedPassword, ...rest } = NewUser._doc;
+    const expirayDate = new Date(Date.now() + 3600000); //1 hour
+    
+    res
+      .cookie("access_token", token, { httpOnly: true, expires: expirayDate })
+      .status(200)
+      .json(rest);
+    // res.status(201).json({ message: "user created successfully" });
   } catch (error) {
     next(error);
   }
