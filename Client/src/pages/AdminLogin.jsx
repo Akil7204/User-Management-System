@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate,  } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { signInStart, signInSuccess, signInFailure } from "../Redux/User/userSlice";
+import { adminSignInFailure, adminSignInStart, adminSignInSuccess } from "../Redux/Admin/adminSlice.js";
 import {useDispatch, useSelector} from 'react-redux';
-import Header from "../Components/Header";
+import AdminNavbar from "../Components/AdminNav.jsx";
 
 
-function Signin() {
+function AdminLogin() {
   const {loading, error} = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,8 +19,8 @@ function Signin() {
 
   const onSubmit = async (data) => {
     try {
-      dispatch(signInStart());
-      const res = await fetch("/BackEnd/auth/signin", {
+      dispatch(adminSignInStart());
+      const res = await fetch("/BackEnd/admin/login", {
         method: "POST",
         headers: {
           "content-Type": "application/json",
@@ -29,11 +29,13 @@ function Signin() {
       });
       const userData = await res.json();
       if (userData.success === false) {
-        dispatch(signInFailure(userData.message));
+        dispatch(adminSignInFailure(userData.message));
         return;
       }
-      dispatch(signInSuccess(userData))
-      navigate("/");
+      console.log(userData);
+      dispatch(adminSignInSuccess(userData))
+      console.log("success login");
+      // navigate("/");
     } catch (error) {
       dispatch(signInFailure(error))
     }
@@ -43,9 +45,9 @@ function Signin() {
 
   return (
     <>
-    <Header />
+    <AdminNavbar />
     <div className="p-4 max-w-lg mx-auto ">
-      <h1 className="text-3xl text-center font-semibold my-8">Sign In</h1>
+      <h1 className="text-3xl text-center font-semibold my-8">Admin Sign In</h1>
       <p className="text-red-700 text-center font-semibold p-5">
         {error ? error || "somthing went wrong" : ""}
       </p>
@@ -85,15 +87,10 @@ function Signin() {
           {loading ? "Loading..." : "Sign In"}
         </button>
       </form>
-      <div className="flex gap-2 mt-5">
-        <p>Don't Have an account?</p>
-        <Link to="/signup">
-          <span className="text-blue-500">Sign Up</span>
-        </Link>
-      </div>
+     
     </div>
     </>
   );
 }
 
-export default Signin;
+export default AdminLogin;

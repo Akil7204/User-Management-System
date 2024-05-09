@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { signUpFailure, signUpStart, signUpSuccess } from "../Redux/User/userSlice";
 import { useDispatch } from "react-redux";
+import Header from "../Components/Header";
 
 function SignUp() {
   const [loading, setLoding] = useState(false);
@@ -40,6 +41,8 @@ function SignUp() {
   };
 
   return (
+    <>
+    <Header />
     <div className="p-4 max-w-lg mx-auto ">
       <h1 className="text-3xl text-center font-semibold my-8">Sign Up</h1>
       <p className="text-red-700 text-center font-semibold p-5">
@@ -101,6 +104,7 @@ function SignUp() {
         </Link>
       </div>
     </div>
+    </>
   );
 }
 
