@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../Components/AdminNav";
+import { useSelector } from "react-redux";
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -9,18 +9,17 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [confirmation, setConfirmation] = useState("");
 
+  const { currentAdmin } = useSelector((state) => state.admin);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const adminJWT = Cookies.get("access_token");
-        console.log(adminJWT);
-
         const response = await fetch('BackEnd/admin/getdashboarddata', {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ adminJWT }),
+          body: JSON.stringify({}),
         });
 
         if (response.ok) {

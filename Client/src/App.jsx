@@ -10,6 +10,8 @@ import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import EditUser from "./pages/EditUser.jsx";
 import AddUser from "./pages/AddUser.jsx";
+import PrivateAdminRoute from "./Components/PrivateAdminRoute.jsx";
+import PrivateAdminCheck from "./Components/PrivateAdminCheck.jsx";
 
 function App() {
   return (
@@ -27,12 +29,22 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
-        {/* admin route */}
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/adminDashboard" element={<AdminDashboard />} />
-        <Route path="/admin/edit" element={<EditUser />} />
 
-        <Route path="/admin/add" element={<AddUser />} />
+        {/* admin route */}
+
+        <Route element={<PrivateAdminCheck />}>
+          <Route path="/admin" element={<AdminLogin />} />
+        </Route>
+
+        <Route element={<PrivateAdminRoute />}>
+          <Route path="/adminDashboard" element={<AdminDashboard />} />
+        </Route>
+        <Route element={<PrivateAdminRoute />}>
+          <Route path="/admin/edit" element={<EditUser />} />
+        </Route>
+        <Route element={<PrivateAdminRoute />}>
+          <Route path="/admin/add" element={<AddUser />} />
+        </Route>
 
 
 

@@ -7,7 +7,7 @@ import AdminNavbar from "../Components/AdminNav.jsx";
 
 
 function AdminLogin() {
-  const {loading, error} = useSelector((state) => state.user);
+  const {loading, error} = useSelector((state) => state.admin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

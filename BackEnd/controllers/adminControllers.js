@@ -13,11 +13,11 @@ export const adminLoginPost = async (req, res, next) => {
     if (emailMatch && passMatch) {
       const token = jwt.sign({ email }, process.env.JWT_SECRET);
       const expirayDate = new Date(Date.now() + 3600000); //1 hour
-
+      const admin = req.body
       res
         .cookie("access_token", token, { httpOnly: true, expires: expirayDate })
         .status(200)
-        .json(token);
+        .json(admin);
     } else {
       return next(errorHandler(404, "User not found"));
     }
