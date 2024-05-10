@@ -7,6 +7,9 @@ import Profile from "./pages/Profile";
 import PrivateRoute from "./Components/PrivateRoute.jsx";
 import PrivateNavigate from "./Components/PrivateNavigate.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import EditUser from "./pages/EditUser.jsx";
+import AddUser from "./pages/AddUser.jsx";
 
 function App() {
   return (
@@ -26,6 +29,11 @@ function App() {
         </Route>
         {/* admin route */}
         <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
+        <Route path="/admin/edit" element={<EditUser />} />
+
+        <Route path="/admin/add" element={<AddUser />} />
+
 
 
       </Routes>

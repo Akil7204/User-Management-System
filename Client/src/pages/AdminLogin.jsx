@@ -35,7 +35,7 @@ function AdminLogin() {
       console.log(userData);
       dispatch(adminSignInSuccess(userData))
       console.log("success login");
-      // navigate("/");
+      navigate("/adminDashboard");
     } catch (error) {
       dispatch(signInFailure(error))
     }
