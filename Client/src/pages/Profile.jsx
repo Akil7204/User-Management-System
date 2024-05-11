@@ -60,7 +60,6 @@ function Profile() {
       );
     } catch (error) {}
   };
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
